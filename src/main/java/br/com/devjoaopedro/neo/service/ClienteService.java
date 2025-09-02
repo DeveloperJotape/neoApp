@@ -1,6 +1,7 @@
 package br.com.devjoaopedro.neo.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class ClienteService {
 
     public List<ClienteResponseDTO> listarClientes() {
         return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
+    }
+
+    public Cliente buscarPorId(UUID id) {
+        return repository.getReferenceById(id);
     }
 
 }
