@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import br.com.devjoaopedro.neo.model.Cliente;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
+public interface ClienteRepository extends JpaRepository<Cliente, UUID>{
     
 }
