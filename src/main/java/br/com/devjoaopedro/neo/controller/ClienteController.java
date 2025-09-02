@@ -1,6 +1,5 @@
 package br.com.devjoaopedro.neo.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -38,22 +38,22 @@ public class ClienteController {
         return ResponseEntity.created(uri).body(cliente);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ClienteResponseDTO>> listarClientes() {
-        return ResponseEntity.ok(clienteService.listarClientes());
-    }
-    
-    @GetMapping
-    public ResponseEntity<Page<ClienteResponseDTO>> listarClientesPaginado(Pageable pageable) {
-        return ResponseEntity.ok(clienteService.listarClientesPaginado(pageable));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable UUID id) {
         var cliente = clienteService.buscarPorId(id);
         return ResponseEntity.ok(new ClienteResponseDTO(cliente));
     }
-
+    
+    @GetMapping
+    public ResponseEntity<Page<ClienteResponseDTO>> listarClientes(
+        @RequestParam(required = false) String nome,
+        @RequestParam(required = false) String cpf,
+        @RequestParam(required = false) String email,
+        Pageable pageable
+    ) {
+        return ResponseEntity.ok(clienteService.listarClientes(nome, cpf, email, pageable));
+    }
+ 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable UUID id, @RequestBody @Valid ClienteRequestDTO dados) {
         ClienteResponseDTO atualizar = clienteService.atualizarCliente(id, dados);
