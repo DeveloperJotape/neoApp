@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ClienteService {
-    
+
     @Autowired
     private ClienteRepository repository;
 
@@ -32,5 +32,23 @@ public class ClienteService {
     public Cliente buscarPorId(UUID id) {
         return repository.getReferenceById(id);
     }
+
+    @Transactional
+    public ClienteResponseDTO atualizarCliente(UUID id, ClienteRequestDTO dados) {
+        Cliente cliente = repository.getReferenceById(id);
+
+        cliente.setNome(dados.nome());
+        cliente.setCpf(dados.cpf());
+        cliente.setEmail(dados.email());
+        cliente.setDataNascimento(dados.dataNascimento());
+        cliente.setTelefone(dados.telefone());
+        cliente.setEndereco(dados.endereco());
+
+        repository.save(cliente);
+
+        return new ClienteResponseDTO(cliente);
+    }
+
+   
 
 }
