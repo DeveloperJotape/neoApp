@@ -49,6 +49,9 @@ public class ClienteService {
         return new ClienteResponseDTO(cliente);
     }
 
-   
+    public void deletarCliente(UUID id) {
+        Cliente cliente = repository.getReferenceById(id);
+        repository.delete(cliente);
+    }
 
 }
