@@ -1,5 +1,7 @@
 package br.com.devjoaopedro.neo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,10 @@ public class ClienteService {
         var cliente = new Cliente(dados);
         repository.save(cliente);
         return new ClienteResponseDTO(cliente);
+    }
+
+    public List<ClienteResponseDTO> listarClientes() {
+        return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
     }
 
 }
