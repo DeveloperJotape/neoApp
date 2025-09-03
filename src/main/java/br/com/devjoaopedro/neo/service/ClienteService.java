@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.devjoaopedro.neo.dto.ClienteRequestDTO;
 import br.com.devjoaopedro.neo.dto.ClienteResponseDTO;
+import br.com.devjoaopedro.neo.dto.ClienteUpdateDTO;
 import br.com.devjoaopedro.neo.model.Cliente;
 import br.com.devjoaopedro.neo.model.ClienteSpecification;
 import br.com.devjoaopedro.neo.repository.ClienteRepository;
@@ -42,7 +43,7 @@ public class ClienteService {
     }
 
     @Transactional
-    public ClienteResponseDTO atualizarCliente(UUID id, ClienteRequestDTO dados) {
+    public ClienteResponseDTO atualizarCliente(UUID id, ClienteUpdateDTO dados) {
         Cliente cliente = repository.getReferenceById(id);
 
         cliente.setNome(dados.nome());

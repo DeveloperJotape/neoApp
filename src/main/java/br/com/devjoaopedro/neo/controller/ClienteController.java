@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.devjoaopedro.neo.dto.ClienteRequestDTO;
 import br.com.devjoaopedro.neo.dto.ClienteResponseDTO;
+import br.com.devjoaopedro.neo.dto.ClienteUpdateDTO;
 import br.com.devjoaopedro.neo.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -83,7 +84,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable UUID id, @RequestBody @Valid ClienteRequestDTO dados) {
+    public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable UUID id, @RequestBody @Valid ClienteUpdateDTO dados) {
         ClienteResponseDTO atualizar = clienteService.atualizarCliente(id, dados);
         return ResponseEntity.ok(atualizar);
     }
