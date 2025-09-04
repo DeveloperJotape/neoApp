@@ -36,6 +36,17 @@ public class TratadorDeErros {
         return respostaErro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno", ex.getMessage());
     }
 
+    // Erro 404
+    @ExceptionHandler(UsuarioNaoEncontradoException.class)
+    public ResponseEntity<?> handleUsuarioNaoEncontrado(UsuarioNaoEncontradoException ex) {
+        var erro = Map.of(
+                "erro", "Usuário não encontrado",
+                "detalhes", ex.getMessage(),
+                "status", 404,
+                "timestamp", LocalDateTime.now().toString());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+
     private ResponseEntity<Map<String, Object>> respostaErro(HttpStatus status, String erro, Object detalhes) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());

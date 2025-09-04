@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @PostMapping
     @Transactional
     public ResponseEntity<ClienteResponseDTO> cadastrarCliente(@RequestBody @Valid ClienteRequestDTO dados, UriComponentsBuilder uriBuilder) {
@@ -55,6 +57,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable UUID id) {
         var cliente = clienteService.buscarPorId(id);
@@ -66,6 +69,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "200", description = "Lista de clientes retornada com sucesso"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<Page<ClienteResponseDTO>> listarClientes(
         @RequestParam(required = false) String nome,
@@ -83,6 +87,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable UUID id, @RequestBody @Valid ClienteUpdateDTO dados) {
         ClienteResponseDTO atualizar = clienteService.atualizarCliente(id, dados);
@@ -95,6 +100,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarCliente(@PathVariable UUID id) {
         clienteService.deletarCliente(id);
