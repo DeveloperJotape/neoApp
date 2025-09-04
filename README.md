@@ -6,6 +6,13 @@
 
 Bem-vindo ao **NeoApp**, uma API RESTful para cadastro de clientes pessoa física, desenvolvida como parte do processo seletivo para a vaga de **Desenvolvedor Back-End Estagiário**. Esta API oferece operações completas de CRUD em clientes, com autenticação JWT e documentação via Swagger.
 
+## 📝 Processo criativo
+
+Este projeto foi desenvolvido com foco em aprendizado e aplicação prática de Spring Boot.  
+- Inicialmente, implementei toda a lógica de CRUD, colocando em prática minha experiência prévia em Springboot e lógica e programação.  
+- Em seguida, enfrentei o desafio de adicionar autenticação e segurança (Spring Security e JWT), tecnologias novas para mim. Para isso, busquei referências na internet e utilizei IAs como apoio.  
+- Apesar de ter apenas algumas horas por dia para desenvolver durante três dias (~1h30/dia), me esforcei para entregar um código robusto, legível e fácil de adaptar.
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
