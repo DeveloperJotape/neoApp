@@ -42,7 +42,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "400", description = "Erro de validação nos dados enviados"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @Transactional
     public ResponseEntity<ClienteResponseDTO> cadastrarCliente(@RequestBody @Valid ClienteRequestDTO dados, UriComponentsBuilder uriBuilder) {
@@ -87,7 +87,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable UUID id, @RequestBody @Valid ClienteUpdateDTO dados) {
         ClienteResponseDTO atualizar = clienteService.atualizarCliente(id, dados);
@@ -100,7 +100,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado"),
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarCliente(@PathVariable UUID id) {
         clienteService.deletarCliente(id);

@@ -30,22 +30,21 @@ public class SecurityFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = recuperarToken(request);
+        logger.debug("Request para: {}" + request.getRequestURI());
+        logger.debug("Token presente: {}" + token != null);
 
         if (token != null) {
-            // 1) Extrai claims do token
             Claims claims = tokenService.getClaims(token);
             String email = claims.getSubject();
-            String cargo = claims.get("cargo", String.class);
+            String authority = "ROLE_" + claims.get("cargo", String.class);
+
+            logger.debug("Email do token: {}" + email);
+            logger.debug("Authority do token: {}" + authority);
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                // 2) Constrói autoridade com base no cargo
-                var authorities = List.of(new SimpleGrantedAuthority(cargo));
-
-                // 3) Cria autenticação
+                var authorities = List.of(new SimpleGrantedAuthority(authority));
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, null,
                         authorities);
-
-                // 4) Coloca no contexto
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }

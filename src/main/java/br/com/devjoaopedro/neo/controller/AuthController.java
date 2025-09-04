@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.devjoaopedro.neo.dto.LoginRequestDTO;
 import br.com.devjoaopedro.neo.dto.LoginResponseDTO;
+import br.com.devjoaopedro.neo.dto.RegisterRequestDTO;
+import br.com.devjoaopedro.neo.model.Cargo;
 import br.com.devjoaopedro.neo.model.Usuario;
 import br.com.devjoaopedro.neo.repository.UsuarioRepository;
 import br.com.devjoaopedro.neo.service.TokenService;
@@ -19,7 +21,7 @@ import br.com.devjoaopedro.neo.service.TokenService;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -44,12 +46,24 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
-        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO request) {
+        if (usuarioRepository.findByEmail(request.email()).isPresent()) {
             return ResponseEntity.badRequest().body("Email já cadastrado");
         }
 
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        Cargo cargo;
+        try {
+            cargo = Cargo.valueOf(request.cargo().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Cargo inválido. Use 'USER' ou 'ADMIN'");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setNome(request.nome());
+        usuario.setEmail(request.email());
+        usuario.setSenha(passwordEncoder.encode(request.senha()));
+        usuario.setCargo(cargo);
+
         usuarioRepository.save(usuario);
 
         return ResponseEntity.ok("Usuário registrado com sucesso");

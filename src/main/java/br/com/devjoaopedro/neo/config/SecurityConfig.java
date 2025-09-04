@@ -35,10 +35,10 @@ public class SecurityConfig {
                                 "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
                                 "/h2-console/**")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/clientes/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/clientes/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/clientes/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/clientes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/clientes/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/clientes/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/clientes/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/clientes/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .headers(h -> h.frameOptions(f -> f.sameOrigin())) // H2 Console
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
